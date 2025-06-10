@@ -1,5 +1,5 @@
 .movie-list-container {
-  padding: 20px;
+  padding: 11rem 3.5rem;
 }
 
 .section-title {
@@ -7,6 +7,11 @@
   margin-bottom: 20px;
   color: #fff;
   text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  word-spacing: 0.5rem;
+  /* color: rgb(229, 9, 20) */
+  color: #fa5252;
 }
 
 .movie-list {

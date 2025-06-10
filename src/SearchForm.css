@@ -1,9 +1,15 @@
+.search-form
+{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
 .search-container
 {
     width: 100%;
 
 
-    /* display: flex; */
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 7rem;
@@ -15,7 +21,7 @@
 
     border: 0.1rem solid rgba(250, 82, 82, 0.6);
     border-right: none;
-    width: 85rem;
+    width: 50vw;
 
     padding: 1rem 1rem;
     /* margin-right: 2rem; */
@@ -81,26 +87,3 @@
       width: 40%;
     }
 }
-@media (max-width: 600px) { /* tablet or ipad*/
-    .search-container {
-
-    }
-    .search-bar {
-
-    }
-    .searh-form{
-      width: 50%;
-    }
-}
-@media (max-width: 300px) { /* phone */
-    .search-container {
-
-    }
-    .search-bar {
-
-    }
-    .searh-form{
-      width: 30%;
-    }
-
-} */

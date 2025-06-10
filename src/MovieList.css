@@ -1,0 +1,39 @@
+.movie-list-container {
+  padding: 20px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.movie-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.loading, .error {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #fff;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .movie-list {
+    gap: 15px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+}

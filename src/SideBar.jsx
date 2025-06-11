@@ -1,4 +1,4 @@
-import './SideBar.css';
+import 'SideBar.css';
 
 const SideBar = ({ currentPage, onPageChange }) => {
     const pages = [

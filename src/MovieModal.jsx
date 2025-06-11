@@ -98,6 +98,13 @@ const MovieModal = ({ movie, onClose }) => {
             <p>{movieDetails.overview}</p>
           </div>
         </div>
+
+        <div className='modal-trailer'>
+            <div className='trailer-container'>
+                <iframe width="560" height="315" src={movie.poster_path `${posterBaseUrl}${movie.poster_path}`} title="YouTube video player" ></iframe>
+            </div>
+
+        </div>
       </div>
     )
   }

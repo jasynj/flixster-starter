@@ -130,7 +130,7 @@ const MovieList = ({
     }
   };
 
-  // Determine which movies to display based on the current page
+
   const getMoviesToDisplay = () => {
     if (currentPage === 'favorites') {
       return sortMovies(favoriteMovies);
@@ -142,7 +142,7 @@ const MovieList = ({
     }
   };
 
-  // Get the title for the current page
+
   const getPageTitle = () => {
     if (currentPage === 'favorites') {
       return 'My Favorites';
@@ -189,10 +189,10 @@ const MovieList = ({
       {displayedMovies.length === 0 && !loading ? (
         <div className="no-results">
           {currentPage === 'favorites'
-            ? "You haven't added any favorites yet"
+            ? "you havent added any favorites yet"
             : currentPage === 'watched'
-              ? "You haven't marked any movies as watched yet"
-              : "No movies found"}
+              ? "you haven't marked any movies as watched yet"
+              : "no movies found"}
         </div>
       ) : (
         <section className="movie-list">

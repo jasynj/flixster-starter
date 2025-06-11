@@ -84,7 +84,7 @@ const MovieModal = ({ movie, onClose }) => {
               </span>
             </div>
 
-            <div className="modal-info-item">
+            <div className="modal-info-item rating">
               <span className="info-label">Rating:</span>
               <span className="info-value">
                 <span className="modal-vote">{movieDetails.vote_average.toFixed(1)}</span>

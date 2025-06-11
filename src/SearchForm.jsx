@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './SearchForm.css';
 
-const SearchForm = ({ onSearch }) => {
+const SearchForm = ({ onSearch, onClear }) => {
     const [query, setQuery] = useState('');
 
     const handleSubmit = (e) => {
@@ -14,6 +14,7 @@ const SearchForm = ({ onSearch }) => {
     const handleClear = (e) => {
         e.preventDefault();
         setQuery('');
+        onClear();
     };
 
     return (

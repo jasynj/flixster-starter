@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import MovieCard from './MovieCard';
+import MovieModal from './MovieModal';
 import './MovieList.css';
 
 const MovieList = ({ searchQuery, view, onViewToggle }) => {
+  const [selectedMovie, setSelectedMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
-
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-
   const [searchResults, setSearchResults] = useState([]);
 
   const fetchMovies = async (pageNum = 1) => {
@@ -86,7 +86,7 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
     }
   };
 
-  // initial fetch of now playing movies
+  // initial fetch of
   useEffect(() => {
     if (view === 'nowPlaying') {
       fetchMovies(1);
@@ -103,6 +103,14 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
 
   const displayedMovies = view === 'nowPlaying' ? movies : searchResults;
   const title = view === 'nowPlaying' ? 'Now Playing' : `Search Results for "${searchQuery}"`;
+
+  const handleMovieClick = (movie) => {
+    setSelectedMovie(movie);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedMovie(null);
+  };
 
   return (
     <main className="movie-list-container">
@@ -129,7 +137,11 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
       ) : (
         <section className="movie-list">
           {displayedMovies.map(movie => (
-            <MovieCard key={movie.id} movie={movie} />
+            <MovieCard
+              key={movie.id}
+              movie={movie}
+              onClick={handleMovieClick}
+            />
           ))}
         </section>
       )}
@@ -140,6 +152,13 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
             Load More
           </button>
         </div>
+      )}
+
+      {selectedMovie && (
+        <MovieModal
+          movie={selectedMovie}
+          onClose={handleCloseModal}
+        />
       )}
     </main>
   );

@@ -1,14 +1,16 @@
-// import React from 'react';
 import './MovieCard.css';
 
-const MovieCard = ({ movie }) => {
-
+const MovieCard = ({ movie, onClick }) => {
   const posterBaseUrl = "https://image.tmdb.org/t/p/w500";
 
+  const handleClick = () => {
+    onClick(movie);
+  };
+
   return (
-    <div className="movie-card">
+    <div className="movie-card" onClick={handleClick}>
       <img
-        src={`${posterBaseUrl}${movie.poster_path}`}
+        src={movie.poster_path ? `${posterBaseUrl}${movie.poster_path}` : '/placeholder-poster.svg'}
         alt={`${movie.title} poster`}
         className="movie-poster"
       />

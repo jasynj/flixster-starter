@@ -13,6 +13,11 @@ const App = () => {
     setView('search');
   };
 
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setView('nowPlaying');
+  };
+
   const handleViewToggle = (selectedView) => {
     setView(selectedView);
   };
@@ -21,7 +26,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         <h1>Flixster</h1>
-        <SearchForm onSearch={handleSearch} />
+        <SearchForm onSearch={handleSearch} onClear={handleClearSearch} />
         <SortForm />
       </header>
       <MovieList

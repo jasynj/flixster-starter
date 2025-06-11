@@ -1,6 +1,8 @@
 .App {
   text-align: center;
-  /* width: 70%; */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .App-header {
@@ -11,10 +13,16 @@
   justify-content: space-between;
   color: white;
   padding: 1.5rem;
-
   position: fixed;
   width: 100%;
   z-index: 1000;
+}
+
+.App-main {
+  flex: 1;
+  margin-left: 200px; /* Match sidebar width */
+  padding-top: 80px; /* Match header height */
+  transition: margin-left 0.3s ease;
 }
 
 .App-footer {
@@ -25,12 +33,8 @@
   justify-content: center;
   color: white;
   padding: 1.5rem;
-
-  /* position: fixed; */
   width: 100%;
-  bottom: 0;
-  right: 0;
-  z-index: 1000;
+  margin-left: 200px; /* Match sidebar width */
 }
 
 @media (max-width: 900px) {
@@ -52,5 +56,14 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+}
+@media (max-width: 768px) {
+  .App-main {
+    margin-left: 60px; /* Match collapsed sidebar width */
+  }
+
+  .App-footer {
+    margin-left: 60px; /* Match collapsed sidebar width */
   }
 }

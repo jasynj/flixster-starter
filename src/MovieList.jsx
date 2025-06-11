@@ -3,7 +3,19 @@ import MovieCard from './MovieCard';
 import MovieModal from './MovieModal';
 import './MovieList.css';
 
-const MovieList = ({ searchQuery, view, sortBy, onViewToggle }) => {
+const MovieList = ({
+  searchQuery,
+  view,
+  sortBy,
+  onViewToggle,
+  currentPage,
+  favoriteMovies,
+  watchedMovies,
+  onToggleFavorite,
+  onToggleWatched,
+  isMovieFavorite,
+  isMovieWatched
+}) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -118,9 +130,31 @@ const MovieList = ({ searchQuery, view, sortBy, onViewToggle }) => {
     }
   };
 
-  const unsortedMovies = view === 'nowPlaying' ? movies : searchResults;
-  const displayedMovies = sortMovies(unsortedMovies);
-  const title = view === 'nowPlaying' ? 'Now Playing' : `Search Results for "${searchQuery}"`;
+  // Determine which movies to display based on the current page
+  const getMoviesToDisplay = () => {
+    if (currentPage === 'favorites') {
+      return sortMovies(favoriteMovies);
+    } else if (currentPage === 'watched') {
+      return sortMovies(watchedMovies);
+    } else {
+      // Home page
+      return sortMovies(view === 'nowPlaying' ? movies : searchResults);
+    }
+  };
+
+  // Get the title for the current page
+  const getPageTitle = () => {
+    if (currentPage === 'favorites') {
+      return 'My Favorites';
+    } else if (currentPage === 'watched') {
+      return 'Watched Movies';
+    } else {
+      return view === 'nowPlaying' ? 'Now Playing' : `Search Results for "${searchQuery}"`;
+    }
+  };
+
+  const displayedMovies = getMoviesToDisplay();
+  const title = getPageTitle();
 
   const handleMovieClick = (movie) => {
     setSelectedMovie(movie);
@@ -132,26 +166,34 @@ const MovieList = ({ searchQuery, view, sortBy, onViewToggle }) => {
 
   return (
     <main className="movie-list-container">
-      <div className="view-toggle">
-        <button
-          className={`toggle-button ${view === 'nowPlaying' ? 'active' : ''}`}
-          onClick={() => handleViewToggle('nowPlaying')}
-        >
-          Now Playing
-        </button>
-        <button
-          className={`toggle-button ${view === 'search' ? 'active' : ''}`}
-          onClick={() => handleViewToggle('search')}
-          disabled={searchResults.length === 0}
-        >
-          Search Results
-        </button>
-      </div>
+      {currentPage === 'home' && (
+        <div className="view-toggle">
+          <button
+            className={`toggle-button ${view === 'nowPlaying' ? 'active' : ''}`}
+            onClick={() => handleViewToggle('nowPlaying')}
+          >
+            Now Playing
+          </button>
+          <button
+            className={`toggle-button ${view === 'search' ? 'active' : ''}`}
+            onClick={() => handleViewToggle('search')}
+            disabled={searchResults.length === 0}
+          >
+            Search Results
+          </button>
+        </div>
+      )}
 
       <h2 className="section-title">{title}</h2>
 
       {displayedMovies.length === 0 && !loading ? (
-        <div className="no-results">No movies found</div>
+        <div className="no-results">
+          {currentPage === 'favorites'
+            ? "You haven't added any favorites yet"
+            : currentPage === 'watched'
+              ? "You haven't marked any movies as watched yet"
+              : "No movies found"}
+        </div>
       ) : (
         <section className="movie-list">
           {displayedMovies.map(movie => (
@@ -159,12 +201,16 @@ const MovieList = ({ searchQuery, view, sortBy, onViewToggle }) => {
               key={movie.id}
               movie={movie}
               onClick={handleMovieClick}
+              onToggleFavorite={() => onToggleFavorite(movie)}
+              onToggleWatched={() => onToggleWatched(movie)}
+              isFavorite={isMovieFavorite(movie.id)}
+              isWatched={isMovieWatched(movie.id)}
             />
           ))}
         </section>
       )}
 
-      {view === 'nowPlaying' && hasMore && !loading && (
+      {currentPage === 'home' && view === 'nowPlaying' && hasMore && !loading && (
         <div className="load-more-container">
           <button className="load-more-button" onClick={handleLoadMore}>
             Load More

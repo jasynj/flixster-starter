@@ -3,7 +3,7 @@ import MovieCard from './MovieCard';
 import MovieModal from './MovieModal';
 import './MovieList.css';
 
-const MovieList = ({ searchQuery, view, onViewToggle }) => {
+const MovieList = ({ searchQuery, view, sortBy, onViewToggle }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -86,7 +86,6 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
     }
   };
 
-  // initial fetch of
   useEffect(() => {
     if (view === 'nowPlaying') {
       fetchMovies(1);
@@ -101,7 +100,26 @@ const MovieList = ({ searchQuery, view, onViewToggle }) => {
     return <div className="error">{error}</div>;
   }
 
-  const displayedMovies = view === 'nowPlaying' ? movies : searchResults;
+  // sort the movies based on the selected sort option
+  const sortMovies = (moviesToSort) => {
+    if (!moviesToSort || moviesToSort.length === 0) return [];
+
+    const sortedMovies = [...moviesToSort];
+
+    switch (sortBy) {
+      case 'title':
+        return sortedMovies.sort((a, b) => a.title.localeCompare(b.title));
+      case 'release_date':
+        return sortedMovies.sort((a, b) => new Date(b.release_date) - new Date(a.release_date));
+      case 'vote_average':
+        return sortedMovies.sort((a, b) => b.vote_average - a.vote_average);
+      default:
+        return sortedMovies;
+    }
+  };
+
+  const unsortedMovies = view === 'nowPlaying' ? movies : searchResults;
+  const displayedMovies = sortMovies(unsortedMovies);
   const title = view === 'nowPlaying' ? 'Now Playing' : `Search Results for "${searchQuery}"`;
 
   const handleMovieClick = (movie) => {

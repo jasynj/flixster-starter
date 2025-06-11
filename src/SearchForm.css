@@ -36,6 +36,11 @@
     /* background-color: #868e96; */
 }
 
+.search-bar::content
+{
+    margin-left: 2rem;
+}
+
 
 .search-button
 {

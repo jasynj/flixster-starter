@@ -46,7 +46,7 @@
 .side-bar-link.active {
     background-color: #fa5252;
     color: #fff;
-    border-left: 4rem solid #fff;
+    border-left: 0.1rem solid #fff;
 }
 
 @media (max-width: 76.8rem) {

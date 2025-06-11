@@ -18,7 +18,7 @@
 .modal-content {
 
   position: relative;
-  height: 80vh;
+  height: 85vh;
   width: 100%;
   max-width: 800px;
   max-height: 100vh;
@@ -68,7 +68,7 @@
 }
 
 .modal-backdrop {
-  height: 50%;
+  height: 40%;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -86,7 +86,7 @@
 .modal-details {
   padding: 2rem;
   overflow-y: auto;
-  height: 50%;
+  height: 60%;
   /* z-index: 10000000; */
 }
 
@@ -159,7 +159,74 @@
   color: #fa5252;
 }
 
-/* Responsive adjustments */
+
+.trailer-thumbnail, .trailer-player
+{
+    position: relative;
+}
+
+.modal-trailer
+{
+    width: 50rem;
+    height: 40rem;
+    margin: 0 auto;
+    /* border: 0.1rem solid #fa5252; */
+}
+
+.trailer-frame
+{
+    border: 1rem solid #fa5252;
+}
+
+.close-button{
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background-color: #282c34;
+    padding : 0.5rem 1rem;
+    border-radius: 6rem;
+
+    border: none;
+    color: #fa5252;
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease
+    color 0.3s ease;
+}
+
+.play-button svg:hover
+{
+    /* background-color: #; */
+    background-color: rgba(250, 82, 82, 0.5);
+    border-radius: 67rem;
+}
+
+
+
+.play-button
+{
+    height: 5rem;
+    width: 5rem;
+    position: absolute;
+    top: 40%;
+    left: 48%;
+    z-index: 100000;
+    background-color: rgba(250, 82, 82, 0.2);
+    border-radius: 67rem;
+    cursor: pointer;
+}
+
+/* .favorite-button svg,
+.watched-button svg {
+  transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.play-button.active {
+  background-color: rgba(250, 82, 82, 0.2);
+} */
+
+
+
 @media (max-width: 60rem) {
   .modal-content {
     max-height: 95vh;

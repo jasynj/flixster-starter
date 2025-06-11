@@ -20,8 +20,8 @@
 
 .App-main {
   flex: 1;
-  margin-left: 200px; /* Match sidebar width */
-  padding-top: 80px; /* Match header height */
+  margin-left: 18rem;
+  padding-top: 8rem;
   transition: margin-left 0.3s ease;
 }
 
@@ -34,7 +34,10 @@
   color: white;
   padding: 1.5rem;
   width: 100%;
-  margin-left: 200px; /* Match sidebar width */
+  margin-left: 18rem;
+
+
+  text-align: center;
 }
 
 @media (max-width: 900px) {

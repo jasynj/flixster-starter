@@ -63,7 +63,6 @@
   transition: fill 0.3s ease, stroke 0.3s ease;
 }
 
-/* Already in your CSS — controls bg */
 .favorite-button.active {
   background-color: rgba(250, 82, 82, 0.2);
 }

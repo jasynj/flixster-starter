@@ -3,17 +3,48 @@ import './MovieModal.css';
 
 const MovieModal = ({ movie, onClose }) => {
   const [movieDetails, setMovieDetails] = useState(null);
+  const [trailers, setTrailers] = useState([]);
+  const [selectedTrailer, setSelectedTrailer] = useState(null);
+  const [showTrailer, setShowTrailer] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
       if (!movie) return;
+      setLoading(true);
 
       const apiKey = import.meta.env.VITE_API_KEY;
-      const url = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
+      const detailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=en-US`;
+      const videosUrl = `https://api.themoviedb.org/3/movie/${movie.id}/videos?api_key=${apiKey}&language=en-US`;
 
-      const response = await fetch(url);
-      const data = await response.json();
-      setMovieDetails(data);
+      try {
+        // Fetch movie details
+        const detailsResponse = await fetch(detailsUrl);
+        const detailsData = await detailsResponse.json();
+        setMovieDetails(detailsData);
+
+        // Fetch movie videos (trailers)
+        const videosResponse = await fetch(videosUrl);
+        const videosData = await videosResponse.json();
+
+        // Filter for YouTube trailers
+        const youtubeTrailers = videosData.results.filter(
+          video => video.site === 'YouTube' &&
+          (video.type === 'Trailer' || video.type === 'Teaser')
+        );
+
+        setTrailers(youtubeTrailers);
+
+        // Set the first trailer as selected if available
+        if (youtubeTrailers.length > 0) {
+          setSelectedTrailer(youtubeTrailers[0]);
+        }
+
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching movie data:', error);
+        setLoading(false);
+      }
     };
 
     fetchMovieDetails();
@@ -41,12 +72,26 @@ const MovieModal = ({ movie, onClose }) => {
     };
   }, [onClose]);
 
-  if (!movie || !movieDetails) return null;
+  const handlePlayTrailer = () => {
+    setShowTrailer(true);
+  };
+
+  const handleCloseTrailer = () => {
+    setShowTrailer(false);
+  };
+
+  if (!movie || !movieDetails || loading) return (
+    <div className="modal-overlay">
+      <div className="modal-content">
+        <div className="modal-loading">Loading movie details...</div>
+      </div>
+    </div>
+  );
 
   const movieModalComponent = () => {
-    return(
-        <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>x</button>
+    return (
+      <div className="modal-content">
+        <button className="modal-close" onClick={onClose}>×</button>
 
         <div
           className="modal-backdrop"
@@ -97,17 +142,43 @@ const MovieModal = ({ movie, onClose }) => {
             <h3>Overview</h3>
             <p>{movieDetails.overview}</p>
           </div>
-        </div>
 
-        <div className='modal-trailer'>
-            <div className='trailer-container'>
-                <iframe width="560" height="315" src={movie.poster_path `${posterBaseUrl}${movie.poster_path}`} title="YouTube video player" ></iframe>
+          {trailers.length > 0 && (
+            <div className="modal-trailer">
+              <h3>Trailer</h3>
+              {showTrailer ? (
+                <div className="trailer-player">
+                  <button className="close-button" onClick={handleCloseTrailer}>×</button>
+                  <iframe
+                    className = "trailer-frame"
+                    width="100%"
+                    height="415"
+                    src={`https://www.youtube.com/embed/${selectedTrailer.key}?autoplay=1`}
+                    title={selectedTrailer.name}
+                    style={{ border: 0 }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              ) : (
+                <div className="trailer-thumbnail" onClick={handlePlayTrailer}>
+                  <img
+                    src={`https://img.youtube.com/vi/${selectedTrailer.key}/hqdefault.jpg`}
+                    alt="Trailer thumbnail"
+                  />
+                  <div className="play-button">
+                    <svg className="play-svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 5V19L19 12L8 5Z" fill="currentColor" />
+                    </svg>
+                  </div>
+                </div>
+              )}
             </div>
-
+          )}
         </div>
       </div>
-    )
-  }
+    );
+  };
   return (
     <div className="modal-overlay">
         {movieModalComponent()}

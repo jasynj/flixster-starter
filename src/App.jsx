@@ -96,14 +96,18 @@ const App = () => {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Flixster</h1>
-        {currentPage === 'home' && (
-          <>
-            <SearchForm onSearch={handleSearch} onClear={handleClearSearch} />
-            <SortForm onSortChange={handleSortChange} />
-          </>
-        )}
+      <header className="header">
+        <div class="title">
+          <h1>Flixster</h1>
+        </div>
+        <banner className="App-header">
+          {currentPage === 'home' && (
+            <>
+              <SearchForm onSearch={handleSearch} onClear={handleClearSearch} />
+              <SortForm onSortChange={handleSortChange} />
+            </>
+          )}
+        </banner>
       </header>
 
       <SideBar currentPage={currentPage} onPageChange={handlePageChange} />
